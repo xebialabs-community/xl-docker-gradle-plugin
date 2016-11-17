@@ -6,7 +6,7 @@
 
 [xl-docker-gradle-plugin-travis-image]: https://travis-ci.org/xebialabs-community/xl-docker-gradle-plugin.svg?branch=master
 [xl-docker-gradle-plugin-travis-url]: https://travis-ci.org/xebialabs-community/xl-docker-gradle-plugin
-[xl-docker-gradle-plugin-codacy-image]: https://api.codacy.com/project/badge/Grade/bd1525ac6d1a4788832d7f9849ddfa73
+[xl-docker-gradle-plugin-codacy-image]: https://api.codacy.com/project/badge/Grade/c44ec3c885b64340a7af03c015391800
 [xl-docker-gradle-plugin-codacy-url]: https://www.codacy.com/app/joris-dewinne/xl-docker-gradle-plugin
 [xl-docker-gradle-plugin-code-climate-image]: https://codeclimate.com/github/xebialabs-community/xl-docker-gradle-plugin/badges/gpa.svg
 [xl-docker-gradle-plugin-code-climate-url]: https://codeclimate.com/github/xebialabs-community/xl-docker-gradle-plugin
