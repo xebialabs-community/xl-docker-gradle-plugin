@@ -3,6 +3,7 @@
 [![Build Status][xl-docker-gradle-plugin-travis-image] ][xl-docker-gradle-plugin-travis-url]
 [![Codacy Badge][xl-docker-gradle-plugin-codacy-image] ][xl-docker-gradle-plugin-codacy-url]
 [![Code Climate][xl-docker-gradle-plugin-code-climate-image] ][xl-docker-gradle-plugin-code-climate-url]
+[![License: MIT][xl-docker-gradle-plugin-license-image] ][xl-docker-gradle-plugin-license-url]
 
 [xl-docker-gradle-plugin-travis-image]: https://travis-ci.org/xebialabs-community/xl-docker-gradle-plugin.svg?branch=master
 [xl-docker-gradle-plugin-travis-url]: https://travis-ci.org/xebialabs-community/xl-docker-gradle-plugin
@@ -10,6 +11,9 @@
 [xl-docker-gradle-plugin-codacy-url]: https://www.codacy.com/app/joris-dewinne/xl-docker-gradle-plugin
 [xl-docker-gradle-plugin-code-climate-image]: https://codeclimate.com/github/xebialabs-community/xl-docker-gradle-plugin/badges/gpa.svg
 [xl-docker-gradle-plugin-code-climate-url]: https://codeclimate.com/github/xebialabs-community/xl-docker-gradle-plugin
+[xl-docker-gradle-plugin-license-image]: https://img.shields.io/badge/License-MIT-yellow.svg
+[xl-docker-gradle-plugin-license-url]: https://opensource.org/licenses/MIT
+
 
 
 # Overview #
@@ -19,7 +23,7 @@ Also you can use `runDocker` to start an XL Tool container with your plugin prel
 
 # Requirements #
 
-* **Gradle** 2.12+
+* **Gradle** 2.13+
 
 # Installation #
 
@@ -27,7 +31,7 @@ Define on top of the `build.gradle` file:
 
 ```
 plugins {
-  id "com.xebialabs.xl.docker" version "1.0.0"
+  id "com.xebialabs.xl.docker" version "1.1.0"
 }
 ```
 
