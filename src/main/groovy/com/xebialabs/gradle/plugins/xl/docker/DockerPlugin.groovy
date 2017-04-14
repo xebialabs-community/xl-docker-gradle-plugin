@@ -30,8 +30,8 @@ class DockerPlugin implements Plugin<Project> {
 
         project.afterEvaluate {
             defineDownloadTasks(project, dockerPluginExtension)
-            Task compileTask = createDockerTask(project, COMPILE_DOCKER_TASK_NAME, ["run", "-v", project.getRootDir().absolutePath + ":/data",  "-v", System.getProperty("user.home") + "/.xlgradle:/root/.gradle", dockerPluginExtension.compileImage+":"+dockerPluginExtension.compileVersion])
-            Task runTask = createDockerTask(project, RUN_DOCKER_TASK_NAME, ["run", "-p", dockerPluginExtension.runPortMapping, "-v", project.getRootDir().absolutePath + ":/data", "-v", System.getProperty("user.home") + "/xl-licenses:/license",  dockerPluginExtension.runImage+":"+dockerPluginExtension.runVersion])
+            Task compileTask = createDockerTask(project, COMPILE_DOCKER_TASK_NAME, ["run", "--rm", "-v", project.getRootDir().absolutePath + ":/data",  "-v", System.getProperty("user.home") + "/.xlgradle:/root/.gradle", dockerPluginExtension.compileImage+":"+dockerPluginExtension.compileVersion])
+            Task runTask = createDockerTask(project, RUN_DOCKER_TASK_NAME, ["run", "--rm", "-p", dockerPluginExtension.runPortMapping, "-v", project.getRootDir().absolutePath + ":/data", "-v", System.getProperty("user.home") + "/xl-licenses:/license",  dockerPluginExtension.runImage+":"+dockerPluginExtension.runVersion])
             runTask.dependsOn compileTask
 
             if (project.file("src/test/resources/docker/docker-compose.yml").exists()) {
