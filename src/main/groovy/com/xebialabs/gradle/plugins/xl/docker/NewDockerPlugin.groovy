@@ -23,6 +23,7 @@ class DockerPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
+        println "Applying Dave's custom plugin\n"
         // Apply the base plugin to get cleaning behaviour
         project.apply plugin: "base"
         project.apply plugin: 'de.undercouch.download'

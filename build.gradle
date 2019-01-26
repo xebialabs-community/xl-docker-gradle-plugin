@@ -11,6 +11,11 @@ buildscript {
     }
 }
 
+plugins {
+    id 'java-gradle-plugin'
+    id 'maven-publish'
+}
+
 apply plugin: 'groovy'
 apply plugin: 'maven'
 apply plugin: "com.gradle.plugin-publish"
@@ -31,6 +36,24 @@ dependencies {
     compile "de.undercouch:gradle-download-task:3.1.1"
 }
 
+gradlePlugin {
+    plugins {
+        docker {
+            id = 'com.xebialabs.xl.docker'
+            implementationClass = 'com.xebialabs.gradle.plugins.xl.docker.DockerPlugin'
+        }
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            url '/Users/droberts/.m2/repository'
+        }
+    }
+}
+
+/*
 pluginBundle {
     website = project.project_url
     vcsUrl = project.project_scm
@@ -48,3 +71,4 @@ pluginBundle {
 ext {
     docker_xl_version = System.properties['xl.docker.xl.version']
 }
+*/
