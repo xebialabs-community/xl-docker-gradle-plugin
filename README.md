@@ -54,6 +54,7 @@ You can make use of the following gradle tasks
     * `runVersion`: Specifies which version of the image to use. See [Docker hub](https://hub.docker.com/u/xebialabs/dashboard/)
     * `runPortMapping`: Specifies which port mapping to use. For example `4516:4516`
     * `download`: Specifies any additional plugins to be downloaded.
+    * `copyLocalPlugins`: Specifies any addition plugins to be copied from the local machine.
     * The `src/main/resources` folder will be linked into the XL `ext` folder (so you don't have to restart on script changes)
     * This task depends on `compileDocker`
 * `runDockerCompose`
@@ -76,6 +77,7 @@ xlDocker {
     dest file("src/downloads/plugins")
     acceptAnyCertificate true
   }
+  copyLocalPlugins = ["/path/to/local/xlr-a-plugin-1.0.1.jar",
+                      "/path/to/local/xlr-b-plugin-1.0.2.jar"]
 }
 ```
-
