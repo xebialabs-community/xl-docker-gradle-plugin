@@ -2,15 +2,15 @@ package com.xebialabs.gradle.plugins.xl.docker
 
 import org.gradle.api.Project
 
-
 class DockerPluginExtension {
     String compileVersion;
     String compileImage;
     String runVersion;
     String runImage;
     String runPortMapping;
-    List<Download> downloads
-    Project project
+    List<Download> downloads;
+    List<String>  copyLocalPlugins;
+    Project project;
 
     DockerPluginExtension(Project project) {
         this.project = project
