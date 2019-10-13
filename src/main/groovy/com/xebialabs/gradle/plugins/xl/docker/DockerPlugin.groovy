@@ -13,6 +13,7 @@ class DockerPlugin implements Plugin<Project> {
     public static final String RUN_DOCKER_TASK_NAME = "runDocker"
 
     public static final String COPY_DOWNLOADS_TASK_NAME = "copyDownloadResources"
+    public static final String COPY_LOCAL_PLUGIN_TASK_NAME = "copyLocalPlugins"
     public static final String CLEAN_DOWNLOAD_CACHE_TASK_NAME = "cleanDownloadCache"
     public static final String DOWNLOAD_RESOURCES_TASK_NAME = "downloadResources"
     public static final String STOP_CONTAINERS_TASK_NAME = "stopContainers"
@@ -30,9 +31,16 @@ class DockerPlugin implements Plugin<Project> {
 
         project.afterEvaluate {
             defineDownloadTasks(project, dockerPluginExtension)
+            def lastCopyLocalPluginTask = defineCopyLocalPluginTasks(project, dockerPluginExtension)
             Task compileTask = createDockerTask(project, COMPILE_DOCKER_TASK_NAME, ["run", "--rm", "-v", project.getRootDir().absolutePath + ":/data",  "-v", System.getProperty("user.home") + "/.xlgradle:/root/.gradle", dockerPluginExtension.compileImage+":"+dockerPluginExtension.compileVersion])
             Task runTask = createDockerTask(project, RUN_DOCKER_TASK_NAME, ["run", "--rm", "-p", dockerPluginExtension.runPortMapping, "-v", project.getRootDir().absolutePath + ":/data", "-v", System.getProperty("user.home") + "/xl-licenses:/license",  dockerPluginExtension.runImage+":"+dockerPluginExtension.runVersion])
+
             runTask.dependsOn compileTask
+
+            if (lastCopyLocalPluginTask) {
+                lastCopyLocalPluginTask.dependsOn compileTask
+                runTask.dependsOn lastCopyLocalPluginTask
+            }
 
             if (project.file("src/test/resources/docker/docker-compose.yml").exists()) {
                 def stopTask = createDockerComposeTask(project, STOP_CONTAINERS_TASK_NAME, ["stop"], dockerPluginExtension)
@@ -96,6 +104,31 @@ class DockerPlugin implements Plugin<Project> {
         firstDownloadTask
     }
 
+    private Task defineCopyLocalPluginTasks(Project project, DockerPluginExtension dockerPluginExtension) {
+        def Task lastCopyLocalPluginTask
+        def Task firstCopyLocalPluginTask
+
+        dockerPluginExtension.copyLocalPlugins.each() { copyLocalPlugin ->
+            def copyLocalPluginTask = project.task("${COPY_LOCAL_PLUGIN_TASK_NAME}_${copyLocalPlugin}", type: Copy).configure {
+                from (copyLocalPlugin)
+                into ("$project.buildDir/downloads/plugins")
+            }
+
+            if (firstCopyLocalPluginTask == null) {
+                firstCopyLocalPluginTask = copyLocalPluginTask
+            }
+
+            if (lastCopyLocalPluginTask != null) {
+                copyLocalPluginTask.dependsOn(lastCopyLocalPluginTask)
+            }
+
+            lastCopyLocalPluginTask = copyLocalPluginTask
+
+        }
+
+        return lastCopyLocalPluginTask
+    }
+
     private Task createDockerComposeTask(Project project, String taskName, Iterable<?> taskArgs, DockerPluginExtension dockerPluginExtension) {
         return project.tasks.create(taskName, Exec).configure {
             executable "docker-compose"
@@ -103,5 +136,4 @@ class DockerPlugin implements Plugin<Project> {
             workingDir "${project.file("src/test/resources/docker").absolutePath}"
         }
     }
-
 }
