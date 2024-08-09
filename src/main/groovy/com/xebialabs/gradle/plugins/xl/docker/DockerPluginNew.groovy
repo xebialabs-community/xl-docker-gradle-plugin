@@ -35,7 +35,7 @@ class DockerPluginNew implements Plugin<Project> {
                 licenseText = new File(System.getProperty("user.home") + "/xl-licenses/xl-release-license.lic").text
             String b64License = licenseText.bytes.encodeBase64().toString()
 
-            Task runTask = createDockerTask(project, RUN_DOCKER_TASK_NAME, ["run", "--rm", "-e", "ADMIN_PASSWORD=admin", "-e", "XL_LICENSE=" + b64License, "-p", dockerPluginExtension.runPortMapping, "--mount", "type=bind,source=" + project.getRootDir().absolutePath + "/build/resources/main,target=/opt/xebialabs/xl-release-server/ext", dockerPluginExtension.runImage + ":" +dockerPluginExtension.runVersion])
+            Task runTask = createDockerTask(project, RUN_DOCKER_TASK_NAME, ["run", "--rm", "-e", "ADMIN_PASSWORD=admin", "-e", "XL_LICENSE=" + b64License, "-p", dockerPluginExtension.runPortMapping, "--mount", "type=bind,source=" + project.getRootDir().absolutePath + "/" + dockerPluginExtension.runRelativeResourcesPath + ",target=/opt/xebialabs/xl-release-server/ext", dockerPluginExtension.runImage + ":" +dockerPluginExtension.runVersion])
 
             if (project.file("src/test/resources/docker/docker-compose.yml").exists()) {
                 def stopTask = createDockerComposeTask(project, STOP_CONTAINERS_TASK_NAME, ["stop"], dockerPluginExtension)

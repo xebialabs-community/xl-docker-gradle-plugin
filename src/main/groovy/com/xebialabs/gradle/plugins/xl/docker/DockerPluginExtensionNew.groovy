@@ -6,6 +6,7 @@ class DockerPluginExtensionNew {
     String runVersion;
     String runImage;
     String runPortMapping;
+    String runRelativeResourcesPath;
     List<DownloadNew> downloads
     Project project
 
