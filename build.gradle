@@ -1,3 +1,5 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
 buildscript {
     repositories {
         maven {
@@ -11,8 +13,12 @@ buildscript {
     }
 }
 
+plugins {
+  id "com.github.hierynomus.license" version "0.16.1"
+  id 'nebula.release' version '19.0.10'
+}
+
 apply plugin: 'groovy'
-apply plugin: 'maven'
 apply plugin: "com.gradle.plugin-publish"
 
 
@@ -26,9 +32,9 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile gradleApi()
-    compile localGroovy()
-    compile "de.undercouch:gradle-download-task:3.1.1"
+    implementation gradleApi()
+    implementation localGroovy()
+    implementation "de.undercouch:gradle-download-task:3.1.1"
 }
 
 pluginBundle {
@@ -48,3 +54,28 @@ pluginBundle {
 ext {
     docker_xl_version = System.properties['xl.docker.xl.version']
 }
+
+if (!project.hasProperty('release.scope')) {
+  project.ext['release.scope'] = 'patch'
+}
+
+if (!project.hasProperty('release.useLastTag')) {
+  project.ext['release.useLastTag'] = true
+}
+
+processResources.configure {
+  filesNotMatching('**/*.png') {
+    filter ReplaceTokens, tokens: [
+      'project.version': version.toString(),
+      'project.name'   : rootProject.name
+    ]
+  }
+}
+
+license {
+  header rootProject.file('License.md')
+  strictCheck true
+  ext.year = Calendar.getInstance().get(Calendar.YEAR)
+  ext.name = 'XEBIALABS'
+}
+
