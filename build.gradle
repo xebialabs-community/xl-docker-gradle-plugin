@@ -21,7 +21,6 @@ plugins {
 apply plugin: 'groovy'
 apply plugin: "com.gradle.plugin-publish"
 
-
 group = 'com.xebialabs.gradle.plugins'
 
 sourceCompatibility = 1.7
@@ -36,6 +35,8 @@ dependencies {
     implementation localGroovy()
     implementation "de.undercouch:gradle-download-task:3.1.1"
 }
+
+version = "1.2.16"
 
 pluginBundle {
     website = project.project_url
